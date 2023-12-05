@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { ChangeEventHandler, useEffect, useState } from "react";
 import { Octokit } from "@octokit/rest";
 import VisualizeData from "./VisualizeData";
 import Link from "next/link";
@@ -50,6 +50,7 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
     const [auth, setAuth] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [lastWeeks, setLastWeeks] = useState(10);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -57,6 +58,12 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+    };
+
+    const setNoOfWeeks = (e: { target: { value: any } }) => {
+        let result = 10;
+        result = parseInt(e.target.value);
+        setLastWeeks(result);
     };
 
     console.log("GithubIssues rendered");
@@ -137,7 +144,7 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
 
     const currentDate = new Date();
     const tenWeeksAgo = new Date(
-        currentDate.getTime() - 10 * 7 * 24 * 60 * 60 * 1000
+        currentDate.getTime() - (lastWeeks - 1) * 7 * 24 * 60 * 60 * 1000
     );
 
     issues.forEach((issue) => {
@@ -189,9 +196,18 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
                     <div className={circleClass}></div>
                 </div> */}
                 <div className="card justify-center items-center px-4 flex gap-3">
-                    <div className="">Total Issues:</div>
+                    <div className="">All-time Issues:</div>
                     <div className="chip">Open: {opened}</div>
                     <div className="chip">Closed: {closed}</div>
+                </div>
+                <div className="flex card justify-center items-center gap-2 px-5">
+                    Show Table For Last
+                    <input
+                        defaultValue={10}
+                        onChange={setNoOfWeeks}
+                        className="input w-20 justify-center flex py-2"
+                    ></input>
+                    Weeks
                 </div>
             </div>
             <VisualizeData weekWiseData={weekwiseData}></VisualizeData>
