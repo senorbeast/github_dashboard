@@ -69,7 +69,7 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
     console.log("GithubIssues rendered");
 
     useEffect(() => {
-        const accessToken = process.env["NEXT_PUBLIC_GITHUB_TOKEN"];
+        // const accessToken = process.env["NEXT_PUBLIC_GITHUB_TOKEN"];
 
         const octokit = new Octokit({
             // auth: accessToken ? `token ${accessToken}` : undefined,
