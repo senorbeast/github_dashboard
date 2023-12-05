@@ -3,15 +3,20 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "@octokit/rest";
 import VisualizeData from "./VisualizeData";
+import Link from "next/link";
+import Modal from "./Modal";
+import SortedTable from "./SortedTable";
 
 // Define TypeScript types
-type Issue = {
+export type Issue = {
     id: number;
     title: string;
     state: string;
     created_at: string;
     closed_at: string | null;
     number: number;
+    html_url: string;
+    updated_at: string;
     // Add other properties as needed
 };
 
@@ -44,15 +49,23 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [auth, setAuth] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     console.log("GithubIssues rendered");
 
     useEffect(() => {
         const accessToken = process.env["NEXT_PUBLIC_GITHUB_TOKEN"];
-        // const accessToken =
-        // "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";
 
         const octokit = new Octokit({
-            auth: accessToken ? `token ${accessToken}` : undefined,
+            // auth: accessToken ? `token ${accessToken}` : undefined,
         });
 
         const fetchIssues = async () => {
@@ -111,7 +124,7 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
         );
     }
 
-    const circleClass = `w-8 h-8 rounded-full ${
+    const circleClass = `w-3 h-3 rounded-full ${
         auth ? "bg-green-500" : "bg-red-500"
     }`;
 
@@ -167,14 +180,38 @@ const GitHubIssues: React.FC<GitHubIssuesProps> = ({ repoUrl }) => {
 
     return (
         <div>
-            <h1>GitHub Issues: {repoUrl}</h1>
-            <div className={circleClass}></div>
             <div className="flex gap-10 m-3">
-                <div>Total</div>
-                <div className="chip">Open: {opened}</div>
-                <div className="chip">Closed: {closed}</div>
+                <Link className="chip" href={repoUrl} target="_blank">
+                    Open Repo in new Tab
+                </Link>
+                {/* <div className="flex gap-3 chip">
+                    Github Token Auth
+                    <div className={circleClass}></div>
+                </div> */}
+                <div className="card justify-center items-center px-4 flex gap-3">
+                    <div className="">Total Issues:</div>
+                    <div className="chip">Open: {opened}</div>
+                    <div className="chip">Closed: {closed}</div>
+                </div>
             </div>
             <VisualizeData weekWiseData={weekwiseData}></VisualizeData>
+            <button type="button" className="button" onClick={openModal}>
+                List Issues
+            </button>
+
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                {/* Content inside the modal */}
+                <SortedTable issues={issues} />
+                <div className="flex justify-center items-center">
+                    <button
+                        type="button"
+                        className="button mt-4"
+                        onClick={closeModal}
+                    >
+                        Close Modal
+                    </button>
+                </div>
+            </Modal>
         </div>
     );
 };

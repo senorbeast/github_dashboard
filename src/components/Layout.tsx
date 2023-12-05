@@ -17,6 +17,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 height: "100%",
                 overflow: "auto",
                 touchAction: "auto",
+                backgroundColor: `${dark ? "black" : "white"}`,
             }}
         >
             {children}

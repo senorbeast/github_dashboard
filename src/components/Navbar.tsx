@@ -51,7 +51,7 @@ const NavBar = () => {
                         alt="Atlas Logo"
                     /> */}
                     <span className="flex text-xl font-semibold whitespace-nowrap standard-color">
-                        Github Dashboard
+                        Github Issue Dashboard
                     </span>
                 </a>
 
@@ -74,13 +74,6 @@ const NavBar = () => {
                 {/* Get Started, Toggle Menu Container  */}
                 <div className="flex items-center justify-center md:order-2 gap-5">
                     <DarkToggle />
-                    {/* Get Started Button */}
-                    <button
-                        type="button"
-                        className=" font-medium text-center button"
-                    >
-                        Get started
-                    </button>
                 </div>
             </nav>
         </div>

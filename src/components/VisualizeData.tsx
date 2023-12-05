@@ -72,10 +72,10 @@ const VisualizeData = ({
     };
 
     return (
-        <div>
-            <table className="min-w-full bg-white border border-gray-300">
-                <thead className="bg-gray-100">
-                    <tr>
+        <div className="flex-col">
+            <table className="min-w-full bg-white border border-gray-300 border-r">
+                <thead className="rounded-t">
+                    <tr className="rounded-t">
                         {tableHeads.map((head) => (
                             <th key={head} className="table-head">
                                 {head}
@@ -83,7 +83,7 @@ const VisualizeData = ({
                         ))}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="">
                     {Object.keys(weekWiseData).map((week) => (
                         <tr key={week} className="border-b">
                             <td className="table-cell">{week}</td>
@@ -117,7 +117,11 @@ const VisualizeData = ({
                 </tbody>
             </table>
 
-            <div>Average Weekly Closure rate: {averageClosureRate()}</div>
+            <div className="m-3 px-4 flex justify-center items-center">
+                <div className="chip">
+                    Average Weekly Closure rate: {averageClosureRate()}
+                </div>
+            </div>
         </div>
     );
 };
