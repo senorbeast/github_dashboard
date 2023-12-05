@@ -1,7 +1,7 @@
 # Github Dashboard
 
 Analyse Github issues, on any public Github repo
-[Live-At]()
+[Live-At](https://github-dashboard-pink.vercel.app/)
 
 
 ## Getting Started
